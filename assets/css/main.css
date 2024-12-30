@@ -689,7 +689,7 @@ Mobile style's
 .product .owl-controls {
     position: absolute;
     top: -60px;
-    right: 0;
+    right: 500px;
 }
 
 .product .owl-controls .owl-prev,

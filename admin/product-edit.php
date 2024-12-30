@@ -122,7 +122,7 @@ if(isset($_POST['form1'])) {
         						));
         } else {
 
-        	unlink('../assets/uploads/'.$_POST['current_photo']);
+        	// unlink('../assets/uploads/'.$_POST['current_photo']);
 
 			$final_name = 'product-featured-'.$_REQUEST['id'].'.'.$ext;
         	move_uploaded_file( $path_tmp, '../assets/uploads/'.$final_name );

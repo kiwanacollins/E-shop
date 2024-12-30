@@ -27,7 +27,7 @@
             <tbody>
             	<?php
             	$i=0;
-            	$statement = $pdo->prepare("SELECT * FROM tbl_subscriber WHERE subs_active=1");
+            	$statement = $pdo->prepare("SELECT * FROM tbl_subscriber");
             	$statement->execute();
             	$result = $statement->fetchAll(PDO::FETCH_ASSOC);
             	foreach ($result as $row) {
