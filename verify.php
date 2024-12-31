@@ -1,29 +1,31 @@
 <?php require_once('header.php'); ?>
+<?php require_once('config/db.php'); // Adjust path if necessary ?>
 
 <?php
-if ( (!isset($_REQUEST['email'])) || (isset($_REQUEST['token'])) )
-{
-    $var = 1;
+// Sanitize GET parameters
+$email = isset($_GET['email']) ? filter_var($_GET['email'], FILTER_SANITIZE_EMAIL) : '';
+$key = isset($_GET['key']) ? filter_var($_GET['key'], FILTER_SANITIZE_STRING) : '';
 
-    // check if the token is correct and match with database.
-    $statement = $pdo->prepare("SELECT * FROM tbl_customer WHERE cust_email=?");
-    $statement->execute(array($_REQUEST['email']));
-    $result = $statement->fetchAll(PDO::FETCH_ASSOC);                           
-    foreach ($result as $row) {
-        if($_REQUEST['token'] != $row['cust_token']) {
-            header('location: '.BASE_URL);
-            exit;
+if ($email && $key) {
+    try {
+        // Check if the subscriber exists and is inactive
+        $statement = $pdo->prepare("SELECT * FROM tbl_subscriber WHERE subs_email = ? AND subs_hash = ? AND subs_active = 0");
+        $statement->execute([$email, $key]);
+
+        if ($statement->rowCount() > 0) {
+            // Activate the subscriber
+            $update = $pdo->prepare("UPDATE tbl_subscriber SET subs_active = 1 WHERE subs_email = ? AND subs_hash = ?");
+            $update->execute([$email, $key]);
+
+            $success_message = '<p style="color:green;">Your subscription has been confirmed successfully!</p>';
+        } else {
+            $error_message = '<p style="color:red;">Invalid verification link or subscription already confirmed.</p>';
         }
+    } catch(PDOException $e) {
+        $error_message = '<p style="color:red;">Error: ' . htmlspecialchars($e->getMessage()) . '</p>';
     }
-
-    // everything is correct. now activate the user removing token value from database.
-    if($var != 0)
-    {
-        $statement = $pdo->prepare("UPDATE tbl_customer SET cust_token=?, cust_status=? WHERE cust_email=?");
-        $statement->execute(array('',1,$_GET['email']));
-
-        $success_message = '<p style="color:green;">Your email is verified successfully. You can now login to our website.</p><p><a href="'.BASE_URL.'login.php" style="color:#167ac6;font-weight:bold;">Click here to login</a></p>';     
-    }
+} else {
+    $error_message = '<p style="color:red;">Invalid verification link.</p>';
 }
 ?>
 

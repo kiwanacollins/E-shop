@@ -17,7 +17,7 @@
 								<th width="30">SL</th>
 								<th width="180">Name</th>
 								<th width="180">Email Address</th>
-								<th width="180">Country, City, State</th>
+								<th width="180">Location</th>
 								<th>Status</th>
 								<th width="100">Change Status</th>
 								<th width="100">Action</th>
@@ -42,8 +42,7 @@
 									<td><?php echo $row['cust_email']; ?></td>
 									<td>
 										<?php echo $row['country_name']; ?><br>
-										<?php echo $row['cust_city']; ?><br>
-										<?php echo $row['cust_state']; ?>
+										<?php echo $row['cust_city']; ?>
 									</td>
 									<td><?php if($row['cust_status']==1) {echo 'Active';} else {echo 'Inactive';} ?></td>
 									<td>
@@ -62,10 +61,7 @@
 			</div>
 		</div>
 	</div>
-
-
 </section>
-
 
 <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -84,6 +80,5 @@
         </div>
     </div>
 </div>
-
 
 <?php require_once('footer.php'); ?>

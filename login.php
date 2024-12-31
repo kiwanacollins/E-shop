@@ -48,6 +48,17 @@ if(isset($_POST['form1'])) {
 }
 ?>
 
+<?php
+if(isset($_SESSION['success_message'])) {
+    $success_message = $_SESSION['success_message'];
+    unset($_SESSION['success_message']);
+}
+
+if(isset($_GET['reset']) && $_GET['reset'] == 'success') {
+    $success_message = 'Password has been reset successfully. You can now login with your new password.';
+}
+?>
+
 <div class="page-banner" style="background-color:#444;background-image: url(assets/uploads/<?php echo $banner_login; ?>);">
     <div class="inner">
         <h1><?php echo LANG_VALUE_10; ?></h1>
@@ -85,8 +96,9 @@ if(isset($_POST['form1'])) {
                                 <div class="form-group">
                                     <label for=""></label>
                                     <input type="submit" class="btn btnlog" value="<?php echo LANG_VALUE_4; ?>" name="form1">
+                                    <a href="forgot-password.php" class="btn btn-link">Forgot Password?</a>
                                 </div>
-                                <a href="forget-password.php" style="color:#e4144d;"><?php echo LANG_VALUE_97; ?></a>
+                                <a href="registration.php" style="color:#e4144d;">New User? Register Now</a>
                             </div>
                         </div>                        
                     </form>

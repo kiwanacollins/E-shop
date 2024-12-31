@@ -1,5 +1,3 @@
-
-
 <?php
 
 // Error Reporting Turn On
@@ -22,11 +20,15 @@ $dbuser = 'root';
 $dbpass = '';
 
 // Defining base url
-define("BASE_URL", "");
+if (!defined('BASE_URL')) {
+    define("BASE_URL", "");
+}
 //http://fashionys.com/
 
 // Getting Admin url
-define("ADMIN_URL", BASE_URL . "admin" . "/");
+if (!defined('ADMIN_URL')) {
+    define("ADMIN_URL", BASE_URL . "admin" . "/");
+}
 
 try {
     // echo "Connecting to the database...<br>"; // Debugging message
